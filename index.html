@@ -1,1 +1,40 @@
-
+  <title>Bạn có phải là chó không  ?</title> 
+  </head>
+  <style>
+    #yes {
+      position: absolute;
+      left: 100px;
+      width: 100px;
+      
+    }
+    #no {
+      position: absolute;
+      left: 300px;
+      width: 200px;
+    }
+    
+  </style>
+  <body>
+    <script>
+      var hoverNo = function () {
+        var btn = document.getElementById("no");
+        var top = Math.floor(Math.random()*400);
+        var left = Math.floor(Math.random()*800);
+        btn.style.top = top;
+        btn.style.left = left;
+        
+      }
+      var clickYes = function() {
+        alert("Đó , tao biết mà =))");
+        
+      }
+    </script>
+  <h1>
+   Bạn có phải là chó không ? 
+    </h1>
+    <button id="yes" onclick="clickYes()">Có tôi là chó !
+    </button>
+    <button id"no" onmouseover="hoverNo()">Éo , tui éo phải chó</button>
+    
+  </body>
+</html>
