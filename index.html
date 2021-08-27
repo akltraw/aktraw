@@ -1,100 +1,15 @@
-<html><head><title>created by aktraw</title>
-<script type="text/javascript">
-
-var snowmax=35
-var snowcolor=new Array("#AAAACC","#DDDDFF","#CCCCDD","#F3F3F3","#F0FFFF")
-var snowtype=new Array("Arial Black","Arial Narrow","Times","Comic Sans MS")
-var snowletter="*"
-var sinkspeed=0.6
-var snowmaxsize=22
-var snowminsize=8
-var snowingzone=1
-
-// Do not edit below this line
-var snow=new Array()
-var marginbottom
-var marginright
-var timer
-var i_snow=0
-var x_mv=new Array();
-var crds=new Array();
-var lftrght=new Array();
-var browserinfos=navigator.userAgent 
-var ie5=document.all&&document.getElementById&&!browserinfos.match(/Opera/)
-var ns6=document.getElementById&&!document.all
-var opera=browserinfos.match(/Opera/)  
-var browserok=ie5||ns6||opera
-
-function randommaker(range) {		
-	rand=Math.floor(range*Math.random())
-    return rand
-}
-
-function initsnow() {
-	if (ie5 || opera) {
-		marginbottom = document.body.clientHeight
-		marginright = document.body.clientWidth
-	}
-	else if (ns6) {
-		marginbottom = window.innerHeight
-		marginright = window.innerWidth
-	}
-	var snowsizerange=snowmaxsize-snowminsize
-	for (i=0;i<=snowmax;i++) {
-		crds[i] = 0;                      
-    	lftrght[i] = Math.random()*15;         
-    	x_mv[i] = 0.03 + Math.random()/10;
-		snow[i]=document.getElementById("s"+i)
-		snow[i].style.fontFamily=snowtype[randommaker(snowtype.length)]
-		snow[i].size=randommaker(snowsizerange)+snowminsize
-		snow[i].style.fontSize=snow[i].size
-		snow[i].style.color=snowcolor[randommaker(snowcolor.length)]
-		snow[i].sink=sinkspeed*snow[i].size/5
-		if (snowingzone==1) {snow[i].posx=randommaker(marginright-snow[i].size)}
-		if (snowingzone==2) {snow[i].posx=randommaker(marginright/2-snow[i].size)}
-		if (snowingzone==3) {snow[i].posx=randommaker(marginright/2-snow[i].size)+marginright/4}
-		if (snowingzone==4) {snow[i].posx=randommaker(marginright/2-snow[i].size)+marginright/2}
-		snow[i].posy=randommaker(2*marginbottom-marginbottom-2*snow[i].size)
-		snow[i].style.left=snow[i].posx
-		snow[i].style.top=snow[i].posy
-	}
-	movesnow()
-}
-
-function movesnow() {
-	for (i=0;i<=snowmax;i++) {
-		crds[i] += x_mv[i];
-		snow[i].posy+=snow[i].sink
-		snow[i].style.left=snow[i].posx+lftrght[i]*Math.sin(crds[i]);
-		snow[i].style.top=snow[i].posy
-		
-		if (snow[i].posy>=marginbottom-2*snow[i].size || parseInt(snow[i].style.left)>(marginright-3*lftrght[i])){
-			if (snowingzone==1) {snow[i].posx=randommaker(marginright-snow[i].size)}
-			if (snowingzone==2) {snow[i].posx=randommaker(marginright/2-snow[i].size)}
-			if (snowingzone==3) {snow[i].posx=randommaker(marginright/2-snow[i].size)+marginright/4}
-			if (snowingzone==4) {snow[i].posx=randommaker(marginright/2-snow[i].size)+marginright/2}
-			snow[i].posy=0
-		}
-	}
-	var timer=setTimeout("movesnow()",50)
-}
-
-for (i=0;i<=snowmax;i++) {
-	document.write("<span id='s"+i+"' style='position:absolute;top:-"+snowmaxsize+"'>"+snowletter+"</span>")
-}
-if (browserok) {
-	window.onload=initsnow
-}
-</script></head><body><span id="s0" style="position: absolute; top: 379.72px; font-family: Times; font-size: 9px; color: rgb(170, 170, 204); left: 1603.03px;">*</span><span id="s1" style="position: absolute; top: 562.8px; font-family: &quot;Comic Sans MS&quot;; font-size: 10px; color: rgb(221, 221, 255); left: 958.403px;">*</span><span id="s2" style="position: absolute; top: 601.88px; font-family: &quot;Arial Narrow&quot;; font-size: 11px; color: rgb(204, 204, 221); left: 978.583px;">*</span><span id="s3" style="position: absolute; top: 556.6px; font-family: &quot;Comic Sans MS&quot;; font-size: 20px; color: rgb(221, 221, 255); left: 870.952px;">*</span><span id="s4" style="position: absolute; top: 534.64px; font-family: Times; font-size: 8px; color: rgb(240, 255, 255); left: 567.444px;">*</span><span id="s5" style="position: absolute; top: 886.88px; font-family: &quot;Arial Black&quot;; font-size: 11px; color: rgb(204, 204, 221); left: 835.959px;">*</span><span id="s6" style="position: absolute; top: 916.44px; font-family: Times; font-size: 18px; color: rgb(221, 221, 255); left: 1585.4px;">*</span><span id="s7" style="position: absolute; top: 31.2px; font-family: &quot;Arial Narrow&quot;; font-size: 20px; color: rgb(243, 243, 243); left: 1240.54px;">*</span><span id="s8" style="position: absolute; top: 642.64px; font-family: &quot;Comic Sans MS&quot;; font-size: 8px; color: rgb(204, 204, 221); left: 1589.62px;">*</span><span id="s9" style="position: absolute; top: 674.88px; font-family: &quot;Arial Narrow&quot;; font-size: 11px; color: rgb(240, 255, 255); left: 1620.27px;">*</span><span id="s10" style="position: absolute; top: 18.36px; font-family: &quot;Arial Black&quot;; font-size: 9px; color: rgb(204, 204, 221); left: 1678.28px;">*</span><span id="s11" style="position: absolute; top: 279.28px; font-family: &quot;Arial Narrow&quot;; font-size: 16px; color: rgb(240, 255, 255); left: 1858.37px;">*</span><span id="s12" style="position: absolute; top: 887.44px; font-family: &quot;Arial Narrow&quot;; font-size: 18px; color: rgb(243, 243, 243); left: 407.757px;">*</span><span id="s13" style="position: absolute; top: 885.44px; font-family: &quot;Arial Narrow&quot;; font-size: 18px; color: rgb(240, 255, 255); left: 753.304px;">*</span><span id="s14" style="position: absolute; top: 373.36px; font-family: &quot;Arial Narrow&quot;; font-size: 17px; color: rgb(221, 221, 255); left: 1609px;">*</span><span id="s15" style="position: absolute; top: 854.28px; font-family: &quot;Arial Black&quot;; font-size: 16px; color: rgb(240, 255, 255); left: 177.483px;">*</span><span id="s16" style="position: absolute; top: 874.52px; font-family: Times; font-size: 19px; color: rgb(170, 170, 204); left: 1450.83px;">*</span><span id="s17" style="position: absolute; top: 474.72px; font-family: &quot;Arial Narrow&quot;; font-size: 9px; color: rgb(170, 170, 204); left: 726.55px;">*</span><span id="s18" style="position: absolute; top: 196.8px; font-family: &quot;Arial Black&quot;; font-size: 20px; color: rgb(170, 170, 204); left: 1609.97px;">*</span><span id="s19" style="position: absolute; top: 878.96px; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; color: rgb(170, 170, 204); left: 802.852px;">*</span><span id="s20" style="position: absolute; top: 351.68px; font-family: &quot;Arial Narrow&quot;; font-size: 21px; color: rgb(221, 221, 255); left: 752.777px;">*</span><span id="s21" style="position: absolute; top: 935.28px; font-family: &quot;Arial Black&quot;; font-size: 16px; color: rgb(170, 170, 204); left: 1662.98px;">*</span><span id="s22" style="position: absolute; top: 155.76px; font-family: &quot;Arial Narrow&quot;; font-size: 11px; color: rgb(240, 255, 255); left: 351.706px;">*</span><span id="s23" style="position: absolute; top: 403.52px; font-family: Times; font-size: 19px; color: rgb(221, 221, 255); left: 1739.58px;">*</span><span id="s24" style="position: absolute; top: 52.08px; font-family: &quot;Arial Black&quot;; font-size: 14px; color: rgb(243, 243, 243); left: 295.49px;">*</span><span id="s25" style="position: absolute; top: 126px; font-family: &quot;Comic Sans MS&quot;; font-size: 21px; color: rgb(221, 221, 255); left: 1882.85px;">*</span><span id="s26" style="position: absolute; top: 472.96px; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; color: rgb(240, 255, 255); left: 856.383px;">*</span><span id="s27" style="position: absolute; top: 743.04px; font-family: Times; font-size: 13px; color: rgb(240, 255, 255); left: 272.168px;">*</span><span id="s28" style="position: absolute; top: 792.52px; font-family: &quot;Arial Narrow&quot;; font-size: 19px; color: rgb(221, 221, 255); left: 472.01px;">*</span><span id="s29" style="position: absolute; top: 37.8px; font-family: &quot;Arial Narrow&quot;; font-size: 21px; color: rgb(243, 243, 243); left: 1409.34px;">*</span><span id="s30" style="position: absolute; top: 371.04px; font-family: &quot;Arial Narrow&quot;; font-size: 13px; color: rgb(170, 170, 204); left: 839.697px;">*</span><span id="s31" style="position: absolute; top: 889.64px; font-family: &quot;Comic Sans MS&quot;; font-size: 8px; color: rgb(243, 243, 243); left: 790.368px;">*</span><span id="s32" style="position: absolute; top: 134.4px; font-family: &quot;Arial Narrow&quot;; font-size: 20px; color: rgb(221, 221, 255); left: 1310.39px;">*</span><span id="s33" style="position: absolute; top: 747.6px; font-family: Times; font-size: 20px; color: rgb(170, 170, 204); left: 491.742px;">*</span><span id="s34" style="position: absolute; top: 644.12px; font-family: &quot;Arial Narrow&quot;; font-size: 14px; color: rgb(240, 255, 255); left: 1356.39px;">*</span><span id="s35" style="position: absolute; top: 372.36px; font-family: &quot;Arial Black&quot;; font-size: 17px; color: rgb(221, 221, 255); left: 1445.11px;">*</span>
-
-<style type="text/css">
-	body {background-color:#000000;}
-	#q {font: 40px impact;color:#ffffff;}
-</style>
-
-<table width="100%" height="100%">
-	<tbody><tr><td align="center">
-		<div id="q">created by aktraw</div>
-	</td>
-</tr></tbody></table>
-</body></html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>404 ERROR</title>
+    </head>
+<body style="background-color: grey;">
+    <h1>404 ERROR</h1>
+	<script>
+   ctx.fillStyle = '#ffffff';
+	ctx.font = '48px sans-serif';
+	ctx.fillText('Hệ thống được tạo bởi AKTRAW', 500, 140)'
+	</script>
+</body>
+</html>
