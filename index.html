@@ -2,73 +2,86 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>HTML Chat</title>
-
-	<style>
-		.up {
-			color: green;
-		}
-
-		.down {
-			color: red;
-		}
-	</style>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+  <title>Bảng xếp hạng bầu cua</title>
+  <style>
+    .avatar {
+      max-width: 50px;
+    }
+  </style>
 </head>
 
 <body>
-	<h1>Chat cung code dao</h1>
-	<ul id="messages"></ul>
+  <div ng-app="pointApp" ng-controller="mainCtrl" id="app">
+    <div style="margin-top: 20px" class="ui container">
+      <h1 class="ui header">Bảng xếp hạng bầu cua</h1>
 
-	<form action="" id="form">
-		<span id="name"></span> <input type="text" id="input">
-		<button>Gửi</button>
-	</form>
+      <div class="ui form">
+        <div class="field">
+          <label>Tìm kiếm</label>
+          <input class="input" ng-model="search" type="text" placeholder="Tìm tên bạn">
+        </div>
+        <button class="ui primary button" ng-click="reload()">Refresh</button>
+      </div>
 
-	<h1>Giá crypto</h1>
-	<span id="price"></span>
+      <div class="ui segment" style="height: 690px; overflow-y: scroll;">
+        <div class="ui eight doubling cards">
+          <div ng-if="isLoading" class="ui active dimmer">
+            <div class="ui loader"></div>
+          </div>
+          <div ng-repeat="player in players | filter:search" class="card">
+            <div class="image">
+              <img ng-src="{{player.avatar}}">
+            </div>
+            <div class="content">
+              <a class="header">Hạng {{players.indexOf(player) + 1}} - {{player.name}}</a>
+              <div class="meta">
+                <span class="date">Điểm: {{player.point}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </body>
 
-<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 <script>
-	const socket = io();
+  // Initialize the Firebase SDK
+  var config = {
+    apiKey: "AIzaSyD92jC36Sb5LtE5CMN-DjYWQA60ttMfcP8",
+    authDomain: "bau-cua-facebook.firebaseapp.com",
+    databaseURL: "https://bau-cua-facebook.firebaseio.com",
+    projectId: "bau-cua-facebook",
+    storageBucket: "bau-cua-facebook.appspot.com",
+    messagingSenderId: "666645143703"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+  var app = angular.module("pointApp", ["firebase"]);
+  var dataUrl = 'https://bau-cua-facebook.firebaseio.com/players.json';
 
-	const name = prompt('Bạn tên gì?')
-	const nameSpan = document.querySelector('#name')
-	nameSpan.innerText = name
+  app.controller("mainCtrl", function ($scope, $http, $firebaseArray) {
+    var ref = firebase.database().ref().child('players');
+    $scope.manualMode = false;
 
-	const form = document.querySelector('#form')
-	const input = document.querySelector('#input')
-	form.addEventListener('submit', (e) => {
-		e.preventDefault()
-		if (input.value) {
-			socket.emit('chat', {
-				name,
-				value: input.value
-			})
-			input.value = ''
-		}
-	})
-	const messages = document.querySelector('#messages')
-	socket.on('chat', (message) => {
-		const li = document.createElement('li')
-		li.textContent = `${message.name}: ${message.value}`
-		messages.appendChild(li)
-	})
+    $scope.players = $firebaseArray(ref);
 
-	let lastPrice = 0
-	const priceSpan = document.querySelector('#price')
-	socket.on('price', (price) => {
-		if (price > lastPrice) {
-			priceSpan.className = 'up'
-		} else {
-			priceSpan.className = 'down'
-		}
-		lastPrice = price
-		priceSpan.textContent = `${price} USD`
-	})
+    $scope.reload = function () {
+      $scope.isLoading = true
+      $http.get(dataUrl).then(response => {
+        $scope.players = response.data
+        $scope.isLoading = false
+      })
+    }
+  });
 </script>
 
 </html>
